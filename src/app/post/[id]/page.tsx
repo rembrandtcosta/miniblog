@@ -23,11 +23,10 @@ export default async function Post({ params }: { params: { id: string } }) {
       <div className="prose max-w-3xl mx-auto">
         <h1 className="text-3xl font-semibold mb-4">{post.title}</h1>
         <div className="inline-flex justify-center">
-          <Image className="object-center object-cover" src={post.coverImage} alt={post.title} />
+          <Image width={800} height={600} className="object-center object-cover" src={post.coverImage} alt={post.title} />
         </div>
         <p className="text-gray-600 mb-4">Published on {parseDate(post.published)}</p>
         <p><i>{post.author}</i></p>
-
         <div className="prose-lg">
           <p>
             {post.content}

@@ -6,7 +6,7 @@ export default function PostCard(props: Post) {
 
   return (
     <div className="block p-4 m-1 max-w-md max-h-sm min-h-sm bg-zinc-50 rounded-lg border border-gray-600 shadow-md">
-      <Image src={props.coverImage} alt={props.title} /> 
+      <Image width={400} height={200} src={props.coverImage} alt={props.title} /> 
       <h1 className="mb-2 text-xl text-gray-900">
         <Link href={`/post/${props.id}`}>{props.title}</Link>
       </h1>
