@@ -37,6 +37,7 @@ async function giveLike(commentId: string, postId: string) {
   });
 }
 
+// duplicate code, will fix if have time
 async function undoLike(commentId: string, postId: string) {
   localStorage.removeItem(commentId);
   const res = await fetch(`/api/comment/${commentId}`, {
@@ -75,7 +76,7 @@ export default function Comment(props: IComment) {
   }
 
   async function handleUndo() {
-    await undoLike(commentId, commentId, postId);
+    await undoLike(commentId, postId);
     setLikes(likes - 1);
   }
 
