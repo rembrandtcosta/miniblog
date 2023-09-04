@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['https://miniblog-mocha.vercel.app']
+    domains: ['miniblog-mocha.vercel.app', 'loremflickr.com']
   }
 }
 
