@@ -30,6 +30,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
     .collection("comments")
     .findOne({ _id: new ObjectId(params.id) })
 
+  if (res !== null)
+    res.id = res?._id;
+
   return Response.json({ status: 200, data: res })
 }
 
@@ -40,6 +43,7 @@ export async function PUT(request: Request) {
   const db = client.db("blog");
 
   const comment = data as Comment;
+  console.log(comment.id);
   const replace = { _id: new ObjectId(comment.id) };
 
   const res = await db

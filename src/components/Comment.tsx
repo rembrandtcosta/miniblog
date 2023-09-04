@@ -13,8 +13,18 @@ function tryLike(commentId: string): boolean {
   return true;
 }
 
-async function giveLike(comment: IComment, commentId: string, postId: string) {
+async function giveLike(commentId: string, postId: string) {
   localStorage.setItem(commentId, "true");
+  const res = await fetch(`/api/comment/${commentId}`, {
+    method: 'GET',
+    cache: 'no-store',
+  });
+
+  const data = await res.json();
+  
+  const comment: IComment = data.data;
+
+  comment.likes = comment.likes + 1;
   await fetch(`/api/comment/${postId}`, {
     method: 'PUT',
     headers: {
@@ -27,8 +37,18 @@ async function giveLike(comment: IComment, commentId: string, postId: string) {
   });
 }
 
-async function undoLike(comment: IComment, commentId: string, postId: string) {
+async function undoLike(commentId: string, postId: string) {
   localStorage.removeItem(commentId);
+  const res = await fetch(`/api/comment/${commentId}`, {
+    method: 'GET',
+    cache: 'no-store',
+  });
+
+  const data = await res.json();
+  
+  const comment: IComment = data.data;
+
+  comment.likes = comment.likes - 1;
   await fetch(`/api/comment/${postId}`, {
     method: 'PUT',
     headers: {
@@ -50,30 +70,12 @@ export default function Comment(props: IComment) {
   const gaveLike = tryLike(commentId);
 
   async function handleLike() {
-    const comment: IComment = {
-      postId: postId,
-      id: commentId,
-      content: props.content,
-      user: props.user,
-      likes: likes + 1,
-      isReply: props.isReply,
-      replies: props.replies,
-    };
-    await giveLike(comment, commentId, postId);
+    await giveLike(commentId, postId);
     setLikes(likes + 1);
   }
 
   async function handleUndo() {
-    const comment: IComment = {
-      postId: postId,
-      id: commentId,
-      content: props.content,
-      user: props.user,
-      likes: likes - 1,
-      isReply: props.isReply,
-      replies: props.replies,
-    };
-    await undoLike(comment, commentId, postId);
+    await undoLike(commentId, commentId, postId);
     setLikes(likes - 1);
   }
 
