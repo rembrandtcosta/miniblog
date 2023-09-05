@@ -14,6 +14,7 @@ export async function GET(request: Request, { params }: { params: { postId: stri
         content: comment.content,
         postId: comment.postId,
         isReply: comment.isReply,
+        email: comment.email,
         user: comment.user,
         likes: comment.likes,
         id: comment._id,

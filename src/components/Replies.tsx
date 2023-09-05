@@ -1,7 +1,7 @@
 import IComment from "@/models/comment";
-import Comment from "./Comment";
+import Comment from "./Comment/index";
 
-export default function Replies(props: { comments: any[], postId: string }) {
+export default function Replies(props: { comments: IComment[], postId: string }) {
   const { comments, postId } = props;
 
   return (
@@ -11,6 +11,7 @@ export default function Replies(props: { comments: any[], postId: string }) {
           <Comment
             key={comment.id}
             id={comment.id}
+            email={comment.email}
             user={comment.user}
             content={comment.content}
             postId={postId}   

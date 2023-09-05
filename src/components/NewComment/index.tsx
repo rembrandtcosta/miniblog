@@ -1,68 +1,31 @@
 'use client';
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { postComment } from "./actions";
+import Comment from "@/models/comment";
+import { useRouter } from "next/navigation";
 
 export default function NewComment(props: { postId: string, reply?: boolean, replyId?: string }) {
+  const router = useRouter();
+
   const [email, setEmail] = useState<string>('');
   const [user, setUser] = useState<string>('');
   const [comment, setComment] = useState<string>('');
 
   const { postId, reply, replyId } = props;
 
-  const router = useRouter();
-
-  const replyComment = async(commentId: string) => {
-    const res = await fetch(`/api/comment/${replyId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      cache: 'no-store',
-    });
-
-    const data = await res.json();
-
-    const replyTo = data.data;
-
-    replyTo.replies.push(commentId)
-
-    await fetch(`/api/comment/${postId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(replyTo),
-      cache: 'no-store',
-    })
-  }
-
-  const postComment = async(e: React.SyntheticEvent) => {
+  const handlePostComment = async(e: React.SyntheticEvent) => {
     e.preventDefault();
-    const res = await fetch(`/api/comment/${postId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'content': comment,
-        'email': email,
-        'user': user,
-        'likes': 0,
-        'replies': [],
-        'isReply': reply ? true : false,
-      }),
-      cache: 'no-store',
-    })
-
-    const data = await res.json();
-
-    const commentId = data.data.insertedId;
-
-    if (reply) {
-      replyComment(commentId);
+    const post: Comment = {
+      'content': comment,
+      'email': email,
+      'user': user,
+      'likes': 0,
+      'replies': [],
+      'isReply': reply ? true : false,
+      'postId': postId,
     }
-
+    await postComment(postId, post, replyId);
     setComment('');
 
     router.refresh();
@@ -71,7 +34,7 @@ export default function NewComment(props: { postId: string, reply?: boolean, rep
   return (
     <div className="max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Leave a {reply ? "Reply" : "Comment"}</h2>
-      <form action="#" method="post" onSubmit={postComment}>
+      <form action="#" method="post" onSubmit={handlePostComment}>
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Username:</label>
           <input

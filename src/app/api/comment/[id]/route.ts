@@ -56,6 +56,7 @@ export async function PUT(request: Request) {
         user: comment.user,
         likes: comment.likes,
         replies: comment.replies,
+        email: comment.email,
       });
 
   return Response.json({ status: 200, data: res });

@@ -1,4 +1,4 @@
-import PostCard from '@/components/ArticleCard';
+import ArticleCard from '@/components/ArticleCard';
 import Pagination from '@/components/Pagination';
 import Post from '@/models/post';
 
@@ -14,7 +14,7 @@ async function getPosts(id: string) {
 }
 
 export async function generateStaticParams() {
-  return [{id: '1'}, {id: '2'}];
+  return [{id: '1'}, {id: '2'}, {id: '3'}]; //start with some pages
 }
 
 export default async function Home({ params }: { params: { id: string } }) {
@@ -28,7 +28,7 @@ export default async function Home({ params }: { params: { id: string } }) {
             (<p> Oops! Looks like you&apos;ve seen it all. </p>)
           : (<></>)} 
           {posts.map((post, _ ) => (
-            <PostCard
+            <ArticleCard
               key={post.id}
               id={post.id}
               title={post.title}

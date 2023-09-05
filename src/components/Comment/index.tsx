@@ -1,66 +1,10 @@
 'use client';
 
 import IComment from "@/models/comment";
-import Replies from "./Replies";
 import { useState } from "react";
-import NewComment from "./NewComment";
-
-function tryLike(commentId: string): boolean {
-  const id = window.localStorage.getItem(commentId);
-  if (id === null) {
-    return false;
-  } 
-  return true;
-}
-
-async function giveLike(commentId: string, postId: string) {
-  localStorage.setItem(commentId, "true");
-  const res = await fetch(`/api/comment/${commentId}`, {
-    method: 'GET',
-    cache: 'no-store',
-  });
-
-  const data = await res.json();
-  
-  const comment: IComment = data.data;
-
-  comment.likes = comment.likes + 1;
-  await fetch(`/api/comment/${postId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'json/application',
-    },
-    body: JSON.stringify(
-      comment    
-    ),
-    cache: 'no-store',
-  });
-}
-
-// duplicate code, will fix if have time
-async function undoLike(commentId: string, postId: string) {
-  localStorage.removeItem(commentId);
-  const res = await fetch(`/api/comment/${commentId}`, {
-    method: 'GET',
-    cache: 'no-store',
-  });
-
-  const data = await res.json();
-  
-  const comment: IComment = data.data;
-
-  comment.likes = comment.likes - 1;
-  await fetch(`/api/comment/${postId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'json/application',
-    },
-    body: JSON.stringify(
-      comment    
-    ),
-    cache: 'no-store',
-  });
-}
+import NewComment from "../NewComment/index";
+import Replies from "../Replies";
+import { searchLike, giveLike, undoLike } from "./actions";
 
 export default function Comment(props: IComment) {
   const [likes, setLikes] = useState(props.likes);
@@ -68,14 +12,18 @@ export default function Comment(props: IComment) {
 
   const { postId, replies } = props;
   const commentId = props.id;
-  const gaveLike = tryLike(commentId);
+  const gaveLike = searchLike(commentId);
 
   async function handleLike() {
+    if (commentId === undefined) 
+      return;
     await giveLike(commentId, postId);
     setLikes(likes + 1);
   }
 
   async function handleUndo() {
+    if (commentId === undefined)
+      return;
     await undoLike(commentId, postId);
     setLikes(likes - 1);
   }
@@ -132,7 +80,7 @@ export default function Comment(props: IComment) {
         }
       </div>
       { activeReply ? <NewComment postId={postId} reply replyId={commentId}/> : <></> }
-      <Replies 
+      <Replies
         comments={replies}
         postId={postId} 
       />

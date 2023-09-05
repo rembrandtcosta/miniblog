@@ -1,6 +1,6 @@
 import IComment from "@/models/comment";
-import Comment from "./Comment";
-import NewComment from "./NewComment";
+import Comment from "./Comment/index";
+import NewComment from "./NewComment/index";
 
 async function getComments(id: string) {
   const res = await fetch(`${process.env.BASE_FETCH_URL}/api/comments/${id}`, {
@@ -8,7 +8,6 @@ async function getComments(id: string) {
     cache: 'no-store',
   });
   const data = await res.json();
-  console.log(data);
   return data as IComment[];
 }
 
@@ -30,6 +29,7 @@ export default async function CommentSection(props: { postId: string }) {
           <Comment
             key={comment.id}
             id={comment.id}
+            email={comment.email}
             user={comment.user}
             content={comment.content}
             postId={postId}   
