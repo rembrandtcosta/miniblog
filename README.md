@@ -10,7 +10,7 @@ pnpm dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-[Deploy do projeto](miniblog-mocha.vercel.app/)
+[Deploy do projeto](https://miniblog-mocha.vercel.app/)
 
 
 # Report do desafio técnico
