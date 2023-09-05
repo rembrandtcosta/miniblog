@@ -45,3 +45,7 @@ Essa estratégia combina vantagens da geração do lado do servidor com a geraç
 De maneira similar, a mesma estratégia foi adotada para as paginas dos posts individuais.
 
 Para os comentários, dada a necessidade de interação com o estado da aplicação (responder a um comentário, curtir um comentário, discutir um comentário, atualizar a contagem de curtidas) optei por fazer essas ações do lado do cliente, também pela facilidade de manter uma espécie de sessão para manter os likes utilizando o localStorage, na falta de uma autenticação de fato. Mas, depois de implementar, talvez com mais tempo, tentaria fazer essas interações do lado do servidor.
+
+>“Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.”
+>
+>― Edsger Wybe Dijkstra
