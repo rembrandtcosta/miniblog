@@ -30,7 +30,7 @@ export default async function Home({ params }: { params: { id: string } }) {
           {posts.map((post, _ ) => (
             <ArticleCard
               key={post.postId}
-              id={post.postId}
+              postId={post.postId}
               title={post.title}
               content={post.content}
               author={post.author}
