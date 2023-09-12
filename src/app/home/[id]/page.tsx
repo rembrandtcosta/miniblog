@@ -6,7 +6,7 @@ export const dynamicParams = true;
 
 async function getPosts(id: string) {
   const res = await fetch(
-    `https://news-api.lublot.dev/api/posts?_page=${id}&_limit=12`,
+    `https://miniapi.onrender.com/api/posts?_page=${id}&_limit=12`,
     { next: { revalidate: 120 } }
   );
   const data = await res.json();
@@ -29,8 +29,8 @@ export default async function Home({ params }: { params: { id: string } }) {
           : (<></>)} 
           {posts.map((post, _ ) => (
             <ArticleCard
-              key={post.id}
-              id={post.id}
+              key={post.postId}
+              id={post.postId}
               title={post.title}
               content={post.content}
               author={post.author}

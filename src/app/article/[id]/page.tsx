@@ -4,7 +4,7 @@ import Image from "next/image";
 
 async function getPost(id: string) {
   const res = await fetch(
-    `https://news-api.lublot.dev/api/posts/${id}`,
+    `https://miniapi.onrender.com/api/post/${id}`,
     { next: { revalidate: 10 } }
   );
   const data = await res.json();
